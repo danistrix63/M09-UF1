@@ -1,3 +1,9 @@
+/*
+ *Este programa implementa el cifrado y descifrado utilizando el algoritmo ROT13,
+ *La función `xifraRot13` cifra un texto desplazando 13 posiciones en el alfabeto,
+ *La función `desxifraRot13` descifra el texto, revirtiendo el desplazamiento de 13 posiciones.
+ *El abecedario tiene la letra Ñ por lo tanto són 27 letras
+ */
 public class Rot13 {
     public static void main(String [] args) {
         // Prueba del cifrado ROT13
@@ -53,7 +59,43 @@ public class Rot13 {
     }
     //desxifrador
     public static final String desxifraRot13(String paraula) {
-        return paraula;
+        String novaParaula = "";
+        for(int i = 0; i < paraula.length();i++) {
+            // Verifica si es letra
+            if(Character.isLetter(paraula.charAt(i))) {
+                // Si es mayúscula
+                if(Character.isUpperCase(paraula.charAt(i))) {
+                    for(int x = 0; x < abecedariMay.length;x++)  {
+                        if(paraula.charAt(i) == abecedariMay[x]) {
+                            int desxifradorNum = x - 13;
+                            // Si se pasa de 0, sumamos 27
+                            if(desxifradorNum < 0) {
+                                desxifradorNum += 27;
+                            }
+                            novaParaula += abecedariMay[desxifradorNum];
+                            break;
+                        }
+                    }
+                // Si es minuscula
+                } else {
+                    for(int y = 0; y < abecedariMin.length;y++) {
+                        if(paraula.charAt(i) == abecedariMin[y]) {
+                            int desxifradorNum = y - 13;
+                            // Si se pasa de 0, sumamos 27
+                            if(desxifradorNum < 0) {
+                                desxifradorNum += 27;
+                            }
+                            novaParaula += abecedariMin[desxifradorNum];
+                            break;
+                        }
+                    }
+                }
+            //si no es letra la dejamos como esta
+            } else {
+                novaParaula += paraula.charAt(i);
+            }
+        }
+        return novaParaula;
     }
 
 }
