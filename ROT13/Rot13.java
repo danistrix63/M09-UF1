@@ -19,7 +19,7 @@ public class Rot13 {
     public static final char[] abecedariMay = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
         
     //xifrador
-    public static final String xifraRot13(String paraula,int desplaçament) {
+    public static final String xifraRot13(String paraula) {
         String novaParaula = "";
         for(int i = 0; i < paraula.length();i++) {
             // Verifica si es letra
@@ -59,7 +59,7 @@ public class Rot13 {
         return novaParaula;
     }
     //desxifrador
-    public static final String desxifraRot13(String paraula,int desplaçament) {
+    public static final String desxifraRot13(String paraula) {
         String novaParaula = "";
         for(int i = 0; i < paraula.length();i++) {
             // Verifica si es letra
