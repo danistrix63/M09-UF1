@@ -116,6 +116,6 @@ public class Rot13 {
             System.out.println("Desplaçament " + desplaçament + ": " + resultat);
         }
     }
-    
+
 }
 
