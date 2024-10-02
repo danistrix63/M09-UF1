@@ -5,14 +5,19 @@
  *El abecedario tiene la letra Ñ por lo tanto són 27 letras
  */
 public class Rot13 {
-    public static void main(String [] args) {
-        // Prueba del cifrado ROT13
+    public static void main(String[] args) {
+        // Prueba del cifrado ROT13 con desplazamiento 7
         String texto = "HolaÑ";
-        String textoCifrado = xifraRot13(texto);
+        String textoCifrado = xifraRot13(texto, 7);
         System.out.println("Texto cifrado: " + textoCifrado);
-        // Prueba del descifrado ROT13
-        String textoDescifrado = desxifraRot13(textoCifrado);
-        System.out.println("Texto descifrado: " + textoDescifrado); // Debería mostrar HolaÑ
+        
+        // Prueba del descifrado ROT13 con desplazamiento 7
+        String textoDescifrado = desxifraRot13(textoCifrado, 7);
+        System.out.println("Texto descifrado: " + textoDescifrado); // Debería mostrar "HolaÑ"
+        
+        // Prueba de fuerza bruta sobre el texto cifrado
+        System.out.println("\nPrueba de fuerza bruta:");
+        forcaBrutaRotX(textoCifrado);
     }
     //arrays globals
     public static final char[] abecedariMin = {'a', 'á', 'b', 'c', 'ç', 'd', 'e', 'é', 'f', 'g', 'h', 'i', 'í', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'ó', 'p', 'q', 'r', 's', 't', 'u', 'ú', 'ü', 'v', 'w', 'x', 'y', 'z'};
@@ -28,10 +33,10 @@ public class Rot13 {
                 if(Character.isUpperCase(paraula.charAt(i))) {
                     for(int x = 0; x < abecedariMay.length;x++)  {
                         if(paraula.charAt(i) == abecedariMay[x]) {
-                            int xifradorNum = x + 13;
-                            // Si se pasa de 27, restamos 27
+                            int xifradorNum = x + desplaçament;
+                            // Si se pasa del length del abecedario, restamos el length
                             if(xifradorNum >= abecedariMay.length) {
-                                xifradorNum -= 27;
+                                xifradorNum -= abecedariMay.length;
                             }
                             novaParaula += abecedariMay[xifradorNum];
                             break;
@@ -41,10 +46,10 @@ public class Rot13 {
                 } else {
                     for(int y = 0; y < abecedariMin.length;y++) {
                         if(paraula.charAt(i) == abecedariMin[y]) {
-                            int xifradorNum = y + 13;
-                            // Si se pasa de 27, restamos 27
+                            int xifradorNum = y + desplaçament;
+                            // Si se pasa del length del abecedario restamos el length
                             if(xifradorNum >= abecedariMin.length) {
-                                xifradorNum -= 27;
+                                xifradorNum -= abecedariMin.length;
                             }
                             novaParaula += abecedariMin[xifradorNum];
                             break;
@@ -68,10 +73,10 @@ public class Rot13 {
                 if(Character.isUpperCase(paraula.charAt(i))) {
                     for(int x = 0; x < abecedariMay.length;x++)  {
                         if(paraula.charAt(i) == abecedariMay[x]) {
-                            int desxifradorNum = x - 13;
-                            // Si se pasa de 0, sumamos 27
+                            int desxifradorNum = x - desplaçament;
+                            // Si se pasa de 0, sumamos el length
                             if(desxifradorNum < 0) {
-                                desxifradorNum += 27;
+                                desxifradorNum += abecedariMay.length;
                             }
                             novaParaula += abecedariMay[desxifradorNum];
                             break;
@@ -81,10 +86,10 @@ public class Rot13 {
                 } else {
                     for(int y = 0; y < abecedariMin.length;y++) {
                         if(paraula.charAt(i) == abecedariMin[y]) {
-                            int desxifradorNum = y - 13;
-                            // Si se pasa de 0, sumamos 27
+                            int desxifradorNum = y - desplaçament;
+                            // Si se pasa de 0, sumamos el length
                             if(desxifradorNum < 0) {
-                                desxifradorNum += 27;
+                                desxifradorNum += abecedariMin.length;
                             }
                             novaParaula += abecedariMin[desxifradorNum];
                             break;
@@ -98,6 +103,19 @@ public class Rot13 {
         }
         return novaParaula;
     }
-
+    public static void forcaBrutaRotX(String cadenaXifrada) {
+        // Longitud del abecedario
+        int longitudAbecedari = abecedariMin.length;
+        
+        // Iteramos sobre todos los desplazamientos posibles (de 1 hasta la longitud del abecedario)
+        for (int desplaçament = 1; desplaçament < longitudAbecedari; desplaçament++) {
+            // Desxiframos la cadena con el desplazamiento actual
+            String resultat = desxifraRot13(cadenaXifrada, desplaçament);
+            
+            // Mostramos el resultado
+            System.out.println("Desplaçament " + desplaçament + ": " + resultat);
+        }
+    }
+    
 }
 
