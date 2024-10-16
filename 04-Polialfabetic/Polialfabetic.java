@@ -8,12 +8,12 @@ public class Polialfabetic {
             'l', 'm', 'n', 'ñ', 'o', 'ó', 'p', 'q', 'r', 's', 't', 'u', 'ú', 'ü', 'v', 'w', 'x', 'y', 'z' };
     public static char[] permutacioGlobal;
     private static Random random;
+    private static String clauSecreta = "contrasenya";
 
     public static void main(String[] args) {
-        String clauSecreta = "contrasenya";
         String msgs[] = {
-            "Test 01 àrbritre, coixí, Perímetre",
-            "Test 02 Taüll, DÍA, año",
+            "Test 01 àrbitre, coixí, perímetre",
+            "Test 02 Taüll, día, año",
             "Test 03 Peça, Òrrius, Bòvila"
         };
 
@@ -21,17 +21,20 @@ public class Polialfabetic {
 
         System.out.println("Xifratge:\n--------");
         for (int i = 0; i < msgs.length; i++) {
-            initRandom(clauSecreta);
             msgsXifrats[i] = xifraPoliAlfa(msgs[i]);
             System.out.printf("%-34s -> %s%n", msgs[i], msgsXifrats[i]);
         }
 
         System.out.println("Desxifratge:\n-----------");
         for (int i = 0; i < msgs.length; i++) {
-            initRandom(clauSecreta);
             String msg = desxifraPoliAlfa(msgsXifrats[i]);
             System.out.printf("%-34s -> %s%n", msgsXifrats[i], msg);
         }
+    }
+
+    public static void initRandom(String clauSecreta, int seed) {
+        random = new Random(clauSecreta.hashCode() + seed);
+        permutaAlfabet();
     }
 
     public static void initRandom(String clauSecreta) {
@@ -54,6 +57,13 @@ public class Polialfabetic {
 
     // Cifra el mensaje usando cifrado polialfabético
     public static String xifraPoliAlfa(String msg) {
+        // Generar una semilla aleatoria entre 0 y tamaño del abecedario - 1
+        int seed = new Random().nextInt(abecedari.length);
+        // Obtener el carácter correspondiente a la semilla
+        char seedChar = abecedari[seed];
+        // Inicializar Random con la clave secreta y la semilla
+        initRandom(clauSecreta, seed);
+
         StringBuilder msgXifrat = new StringBuilder();
         for (int i = 0; i < msg.length(); i++) {
             char lletra = msg.charAt(i);
@@ -70,13 +80,26 @@ public class Polialfabetic {
             // Permuta el abecedario para la próxima letra
             permutaAlfabet();
         }
-        return msgXifrat.toString();
+        // Incluir el carácter de la semilla al inicio del mensaje cifrado
+        return seedChar + msgXifrat.toString();
     }
 
     // Descifra el mensaje
     public static String desxifraPoliAlfa(String msgXifrat) {
+        // Extraer el carácter de la semilla
+        char seedChar = msgXifrat.charAt(0);
+        // Obtener la semilla a partir del carácter
+        int seed = buscaLletra(seedChar);
+        // Verificar que el carácter está en el abecedario
+        if (seed == -1) {
+            throw new IllegalArgumentException("Carácter de semilla inválido");
+        }
+        // Inicializar Random con la clave secreta y la semilla
+        initRandom(clauSecreta, seed);
+
         StringBuilder msgDesxifrat = new StringBuilder();
-        for (int i = 0; i < msgXifrat.length(); i++) {
+        // Procesar el resto del mensaje (excluyendo el primer carácter)
+        for (int i = 1; i < msgXifrat.length(); i++) {
             char lletra = msgXifrat.charAt(i);
             boolean mayus = Character.isUpperCase(lletra);
             lletra = Character.toLowerCase(lletra);
