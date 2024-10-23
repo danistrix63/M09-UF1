@@ -13,14 +13,15 @@ public class AES {
     public static final String FORMAT_AES = "AES/CBC/PKCS5Padding"; // Modo de operación AES
     private static final int MIDA_IV = 16; // Tamaño del vector de inicialización (IV) en bytes
     private static byte[] iv = new byte[MIDA_IV]; // Array para almacenar el IV
-    private static final String CLAU = "LaClauSecretaQueVulguis"; // Clave secreta para el cifrado
+    private static final String CLAU = "QUIM MORO"; // Clave secreta para el cifrado
 
     /**
      * Método para cifrar un mensaje utilizando AES en modo CBC con PKCS5Padding.
      *
      * @param msg  El mensaje en texto claro que queremos cifrar.
      * @param clau La clave utilizada para el cifrado.
-     * @return Un String codificado en Base64 que contiene el IV concatenado con el mensaje cifrado.
+     * @return Un String codificado en Base64 que contiene el IV concatenado con el
+     *         mensaje cifrado.
      * @throws Exception En caso de error durante el proceso de cifrado.
      */
     public static String xifraAES(String msg, String clau) throws Exception {
@@ -55,10 +56,12 @@ public class AES {
     }
 
     /**
-     * Método para descifrar un mensaje cifrado utilizando AES en modo CBC con PKCS5Padding.
+     * Método para descifrar un mensaje cifrado utilizando AES en modo CBC con
+     * PKCS5Padding.
      *
-     * @param bIvIMsgXifratBase64 El mensaje cifrado en formato Base64 que incluye el IV al inicio.
-     * @param clau La clave utilizada para el descifrado.
+     * @param bIvIMsgXifratBase64 El mensaje cifrado en formato Base64 que incluye
+     *                            el IV al inicio.
+     * @param clau                La clave utilizada para el descifrado.
      * @return El mensaje descifrado en formato String.
      * @throws Exception En caso de error durante el proceso de descifrado.
      */
@@ -70,7 +73,8 @@ public class AES {
         System.arraycopy(bIvIMsgXifrat, 0, iv, 0, MIDA_IV); // Extraemos el IV
         IvParameterSpec ivSpec = new IvParameterSpec(iv); // Creamos el IV para el descifrado
 
-        // Extraer la parte cifrada del mensaje (el resto después de los primeros 16 bytes)
+        // Extraer la parte cifrada del mensaje (el resto después de los primeros 16
+        // bytes)
         byte[] msgXifrat = new byte[bIvIMsgXifrat.length - MIDA_IV];
         System.arraycopy(bIvIMsgXifrat, MIDA_IV, msgXifrat, 0, msgXifrat.length);
 
@@ -99,9 +103,9 @@ public class AES {
     public static void main(String[] args) {
         // Array de mensajes a cifrar
         String[] msgs = {
-            "Lorem ipsum dicet",
-            "Hola Andrés cómo está tu cuñado",
-            "Àgora ïlla Ôtto"
+                "Lorem ipsum dicet",
+                "Hola Andrés cómo está tu cuñado",
+                "Àgora ïlla Ôtto"
         };
 
         // Probar el cifrado y descifrado para cada mensaje
